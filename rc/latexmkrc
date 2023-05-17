@@ -1,0 +1,6 @@
+#!/ usr/bin/perl
+
+$local_latexmkrc_path = "$ENV{LATEXDIR}/latexmkrc";
+print "Latexmk setting file is $local_latexmkrc_path\n\n";
+
+require $local_latexmkrc_path if -e $local_latexmkrc_path;

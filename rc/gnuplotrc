@@ -1,0 +1,3 @@
+set loadpath "~/Tools/gnuplot/gnuplot-palettes"
+
+load "~/Tools/gnuplot/gnuplotrc"

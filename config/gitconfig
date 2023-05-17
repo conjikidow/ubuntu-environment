@@ -1,0 +1,29 @@
+[alias]
+    ch = checkout
+	cr = clone --recursive
+    cm = commit
+    ca = commit --amend
+    d = diff --summary --stat --patch
+    wd = d --word-diff
+    stat = diff --stat
+    sgl = log --graph --all --decorate --date=format:'%Y/%m/%d %H:%M' --pretty=format:'%C(yellow)%h %C(green)%cd %C(auto)%d %C(white)%s %C(cyan)[%cn]'
+    sgls = sgl --stat
+    st = status
+    su = submodule update --init --recursive
+    which = "!_() { git config --global --get alias.$1; };_"
+[core]
+	editor = vim
+	autocrlf = false
+	whitespace = cr-at-eol
+	compression = 0
+[credential]
+    helper = cache --timeout=36000
+[fetch]
+    prune = true
+[help]
+    autocorrect = 1
+[pull]
+	rebase = false
+[push]
+    default = simple
+    recurseSubmodules = check
