@@ -99,7 +99,7 @@ wget -P ${DOWNLOADS_DIR} https://dl.google.com/linux/direct/google-chrome-stable
 sudo apt-get install -y ${DOWNLOADS_DIR}/google-chrome-stable_current_amd64.deb
 rm -f ${DOWNLOADS_DIR}/google-chrome-stable_current_amd64.deb
 
-# Install Communication Tools
+# Install communication tools
 ## Slack
 if compgen -G "${DOWNLOADS_DIR}/slack-desktop*.deb" > /dev/null; then
     echo '\n\e[1;36mInstalling Slack ...\e[m\n'
