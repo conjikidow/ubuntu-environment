@@ -139,7 +139,8 @@ echo '\n\e[1;36mInstalling other applications ...\e[m\n'
 sudo apt-get install -y colordiff
 sudo apt-get install -y usb-creator-gtk
 curl -sS https://webinstall.dev/shfmt | bash && rm -rf ${DOWNLOADS_DIR}/webi
-sudo apt-get install -y gthumb
+sudo apt-get install -y gthumb # Image viewer and editor
+sudo apt-get install -y vlc # Media player
 sudo update-pciids
 
 # Uninstall unnecessary applications
