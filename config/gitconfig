@@ -27,3 +27,5 @@
 [push]
     default = simple
     recurseSubmodules = check
+[url "ssh://git@"]
+	insteadOf = https://
