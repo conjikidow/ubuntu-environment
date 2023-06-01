@@ -7,3 +7,6 @@
 [submodule "zsh"]
 	path = zsh
 	url = git@github.com:conjikidow/zsh-environment.git
+[submodule "latex/texmf"]
+	path = latex/texmf
+	url = git@github.com:conjikidow/latex-texmf.git

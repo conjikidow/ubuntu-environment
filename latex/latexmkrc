@@ -1,0 +1,15 @@
+#!/ usr/bin/perl
+
+# Build
+$lualatex     = "lualatex -synctex=1 -interaction=nonstopmode";
+$pdflualatex  = $lualatex;
+$pdf_mode     = 4;
+$max_repeat   = 4;
+$out_dir      = "build";
+
+# Bibliography
+$biber        = "biber %O --bblencoding=utf8 -u -U --output_safechars %B";
+$bibtex       = "bibtex %O %B";
+
+# Index
+$makeindex    = "mendex %O -o %D %S";
