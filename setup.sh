@@ -73,6 +73,21 @@ pip install autopep8 ipykernel isort matplotlib numpy pandas scipy sympy yapf
 mkdir -p ${HOME}/.config/yapf
 ln -s ${ENVDIR}/dotfiles/yapf_style ${HOME}/.config/yapf/style
 
+# Install and set up LaTeX
+echo '\n\e[1;36mInstalling LaTeX ...\e[m\n'
+sudo add-apt-repository multiverse
+sudo apt-get update
+sudo apt-get install -y --no-install-recommends texlive-full
+sudo apt-get install -y --no-install-recommends ttf-mscorefonts-installer
+sudo add-apt-repository -r multiverse
+sudo apt-get update
+echo '\n\e[1;36mSetting up Latex ...\e[m\n'
+export LATEXDIR=${ENVDIR}/latex
+export TEXMFHOME=${LATEXDIR}/texmf
+ln -s "$(pwd)/dotfiles/latexmkrc" ${HOME}/.latexmkrc
+echo "paths:
+- ${LATEXDIR}/latexindent/userSettings.yaml" > ${HOME}/.indentconfig.yaml
+
 # Install editors
 ## Vim
 echo '\n\e[1;36mInstalling Vim ...\e[m\n'

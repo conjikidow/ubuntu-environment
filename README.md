@@ -46,11 +46,3 @@ $ git clone --recursive git@github.com:conjikidow/ubuntu-environment.git ${HOME}
 $ cd environment
 $ source setup.sh
 ```
-
-### For LaTeX Installation ...
-
-Run the `setup_latex.sh` script.
-
-```zsh
-$ source setup_latex.sh
-```
