@@ -1,11 +1,11 @@
 # !/usr/bin/zsh
 
+cd $(dirname $0)
+
 read -p "Enter your full name: " FULLNAME
 read -p "Enter your e-mail address: " EMAIL
 
 DOWNLOADS_DIR=${HOME}/Downloads
-TOOLS_DIR=${HOME}/Tools
-mkdir -p ${TOOLS_DIR}
 
 # Install standard applications
 echo '\n\e[1;36mInstalling standard applications ...\e[m\n'
@@ -126,8 +126,9 @@ sudo usermod -aG docker $(whoami)
 # Install and set up Gnuplot
 echo '\n\e[1;36mInstalling Gnuplot ...\e[m\n'
 sudo apt-get install -y gnuplot
-git clone --recursive git@github.com:conjikidow/gnuplot-environment.git ${TOOLS_DIR}/gnuplot
-ln -s "$(pwd)/rc/gnuplotrc" ${HOME}/.gnuplot
+echo "set loadpath \"$(pwd)/gnuplot/gnuplot-palettes\"
+
+load \"$(pwd)/gnuplot/gnuplotrc\"" > ${HOME}/.gnuplot
 
 # Set up input sources
 echo '\n\e[1;36mInstalling Mozc ...\e[m\n'
