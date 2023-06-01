@@ -1,6 +1,7 @@
 # !/usr/bin/zsh
 
 cd $(dirname $0)
+ENVDIR=$(pwd)
 
 read -p "Enter your full name: " FULLNAME
 read -p "Enter your e-mail address: " EMAIL
@@ -25,15 +26,14 @@ echo "[user]
     name = ${FULLNAME}
 	email = ${EMAIL}
 [include]
-    path = $(pwd)/config/gitconfig" > ${HOME}/.gitconfig
+    path = ${ENVDIR}/git/gitconfig" > ${HOME}/.gitconfig
 
 # Set up Zsh
 echo '\n\e[1;36mSetting up Zsh ...\e[m\n'
-git clone git@github.com:conjikidow/zsh-environment.git ${HOME}/.zsh
-ln -s ${HOME}/.zsh/.zshenv ${HOME}/.zshenv
+ln -s ${ENVDIR}/zsh/.zshenv ${HOME}/.zshenv
 source ${HOME}/.zshenv
 source ${ZDOTDIR}/.zshrc
-ln -s "$(pwd)/config/dircolors" ${HOME}/.dircolors
+ln -s ${ENVDIR}/dotfiles/dircolors ${HOME}/.dircolors
 
 # Install and set up C & C++
 echo '\n\e[1;36mSetting up C and C++ ...\e[m\n'
@@ -48,22 +48,16 @@ sudo apt-get install -y libboost-all-dev
 sudo apt-get install -y make cmake
 ## ClangFormat
 sudo apt-get install -y clang-format
-ln -s "$(pwd)/config/clang-format" ${HOME}/.clang-format
+ln -s ${ENVDIR}/dotfiles/clang-format ${HOME}/.clang-format
 
 # Install and set up Python
 echo '\n\e[1;36mSetting up Python ...\e[m'
-mkdir -p ${HOME}/.python
-ln -s "$(pwd)/rc/pythonrc.py" ${HOME}/.python/pythonrc.py
 ## Dependent libraries
 echo '\n\e[36mInstalling libraries required to build Python ...\e[m\n'
 sudo sh -c 'echo "deb-src http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-updates main" >> /etc/apt/sources.list'
 sudo apt-get update
 sudo apt-get build-dep -y python3.10
 sudo apt-get install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-## pyenv
-echo '\n\e[36mInstalling pyenv ...\e[m\n'
-git clone git@github.com:pyenv/pyenv.git ${HOME}/.python/pyenv
-eval "$(pyenv init -)"
 ## Python
 echo '\n\e[36mBuilding and installing Python ...\e[m\n'
 pyenv install 3.10.10
@@ -77,7 +71,7 @@ pip install --upgrade pip
 echo '\n\e[36mInstalling some Python modules ...\e[m\n'
 pip install autopep8 ipykernel isort matplotlib numpy pandas scipy sympy yapf
 mkdir -p ${HOME}/.config/yapf
-ln -s "$(pwd)/config/yapf_style" ${HOME}/.config/yapf/style
+ln -s ${ENVDIR}/dotfiles/yapf_style ${HOME}/.config/yapf/style
 
 # Install editors
 ## Vim
@@ -126,9 +120,9 @@ sudo usermod -aG docker $(whoami)
 # Install and set up Gnuplot
 echo '\n\e[1;36mInstalling Gnuplot ...\e[m\n'
 sudo apt-get install -y gnuplot
-echo "set loadpath \"$(pwd)/gnuplot/gnuplot-palettes\"
+echo "set loadpath \"${ENVDIR}/gnuplot/gnuplot-palettes\"
 
-load \"$(pwd)/gnuplot/gnuplotrc\"" > ${HOME}/.gnuplot
+load \"${ENVDIR}/gnuplot/gnuplotrc\"" > ${HOME}/.gnuplot
 
 # Set up input sources
 echo '\n\e[1;36mInstalling Mozc ...\e[m\n'
@@ -151,7 +145,7 @@ sudo apt-get autoremove -y
 
 # Load dconf settings
 echo '\n\e[1;36mLoad dconf settings ...\e[m\n'
-dconf load / < "$(pwd)/config/dconf.ini"
+dconf load / < ${ENVDIR}/config/dconf.ini
 
 echo '\n\e[1;36mAll installations and setups have completed!\e[m\n'
 

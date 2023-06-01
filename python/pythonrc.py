@@ -52,7 +52,7 @@ readline.parse_and_bind("tab: complete")
 
 # Enable history
 
-__histfile = f"{os.environ['HOME']}/.python/.python_history"
+__histfile = f"{os.environ['ENVDIR']}/python/.python_history"
 __histsize = 10000
 
 if os.path.exists(__histfile):

@@ -1,3 +1,9 @@
 [submodule "gnuplot/gnuplot-palettes"]
 	path = gnuplot/gnuplot-palettes
 	url = git@github.com:Gnuplotting/gnuplot-palettes.git
+[submodule "python/pyenv"]
+	path = python/pyenv
+	url = git@github.com:pyenv/pyenv.git
+[submodule "zsh"]
+	path = zsh
+	url = git@github.com:conjikidow/zsh-environment.git
