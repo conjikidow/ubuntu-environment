@@ -34,7 +34,7 @@ $ xclip -sel clip < ${HOME}/.ssh/github_ed25519.pub
 
 ### Download Slack Installer
 
-Download the Slack app installer from its [official site](https://slack.com/downloads/linux) to the Downloads directory.
+Download the Slack app installer from its [official site](https://slack.com/downloads/linux) to the Downloads directory if you want the app.
 Note that you need to download the .deb version.
 
 ## Just Run
