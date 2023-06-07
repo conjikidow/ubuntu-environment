@@ -3,8 +3,8 @@
 cd $(dirname $0)
 ENVDIR=$(pwd)
 
-read -p "Enter your full name: " FULLNAME
-read -p "Enter your e-mail address: " EMAIL
+read "FULLNAME?Enter your full name: "
+read "EMAIL?Enter your e-mail address: "
 
 DOWNLOADS_DIR=${HOME}/Downloads
 
