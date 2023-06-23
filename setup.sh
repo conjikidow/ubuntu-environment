@@ -184,7 +184,7 @@ sudo apt-get install -y ibus-mozc mozc-utils-gui \
 
 # Install other applications
 echo '\n\e[0;36mInstalling other applications ...\e[m\n'
-sudo apt-get install -y colordiff
+sudo apt-get install -y colordiff pwgen
 sudo apt-get install -y usb-creator-gtk
 curl -sS https://webinstall.dev/shfmt | bash && rm -rf ${DOWNLOADS_DIR}/webi
 sudo apt-get install -y gthumb # Image viewer and editor
