@@ -22,6 +22,8 @@
     prune = true
 [help]
     autocorrect = 1
+[init]
+	defaultBranch = main
 [pull]
 	rebase = false
 [push]
