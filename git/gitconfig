@@ -10,7 +10,7 @@
     sgls = sgl --stat
     st = status
     su = submodule update --init --recursive
-    which = "!_() { git config --global --get alias.$1; };_"
+    which = "!_() { git config --get alias.$1; };_"
 [core]
 	editor = vim
 	autocrlf = false
