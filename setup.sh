@@ -1,5 +1,18 @@
 # !/usr/bin/zsh
 
+is_wsl=false
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+    echo -e "\n\e[0;36mStart setting up WSL.\e[m\n"
+    is_wsl=true
+else
+    if [[ -f "/etc/os-release" ]]; then
+        source "/etc/os-release"
+        echo -e "\n\e[0;36mStart setting up $PRETTY_NAME.\e[m\n"
+    else
+        echo -e "\n\e[0;36mStart setting up Linux.\e[m\n"
+    fi
+fi
+
 cd $(dirname $0)
 ENVDIR=$(pwd)
 
@@ -105,59 +118,65 @@ fi
 echo '\n\e[0;36mInstalling Vim ...\e[m\n'
 sudo apt-get install -y vim
 ## VSCode
-read -k 1 $'REPLY?\n\e[0;33mWould you like to install VSCode? (Y/n): \e[m'
-if [[ $REPLY == $'\n' || $REPLY == [yY] ]]; then
-    echo '\n\e[0;36mInstalling VSCode ...\e[m\n'
-    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > ${DOWNLOADS_DIR}/packages.microsoft.gpg &&
-        sudo install -D -o root -g root -m 644 ${DOWNLOADS_DIR}/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg &&
-        sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' &&
-        rm -f ${DOWNLOADS_DIR}/packages.microsoft.gpg &&
-        sudo apt-get update &&
-        sudo apt-get install -y code
-else
-    echo '\n\e[0;31mVSCode installation skipped.\e[m'
+if ! $is_wsl; then
+    read -k 1 $'REPLY?\n\e[0;33mWould you like to install VSCode? (Y/n): \e[m'
+    if [[ $REPLY == $'\n' || $REPLY == [yY] ]]; then
+        echo '\n\e[0;36mInstalling VSCode ...\e[m\n'
+        wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > ${DOWNLOADS_DIR}/packages.microsoft.gpg &&
+            sudo install -D -o root -g root -m 644 ${DOWNLOADS_DIR}/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg &&
+            sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' &&
+            rm -f ${DOWNLOADS_DIR}/packages.microsoft.gpg &&
+            sudo apt-get update &&
+            sudo apt-get install -y code
+    else
+        echo '\n\e[0;31mVSCode installation skipped.\e[m'
+    fi
 fi
 
 # Install browsers
 ## Google Chrome
-read -k 1 $'REPLY?\n\e[0;33mWould you like to install Google Chrome? (Y/n): \e[m'
-if [[ $REPLY == $'\n' || $REPLY == [yY] ]]; then
-    echo '\n\e[0;36mInstalling Google Chrome ...\e[m\n'
-    wget -P ${DOWNLOADS_DIR} https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
-        sudo apt-get install -y ${DOWNLOADS_DIR}/google-chrome-stable_current_amd64.deb &&
-        rm -f ${DOWNLOADS_DIR}/google-chrome-stable_current_amd64.deb
-else
-    echo '\n\e[0;31mGoogle Chrome installation skipped.\e[m'
+if ! $is_wsl; then
+    read -k 1 $'REPLY?\n\e[0;33mWould you like to install Google Chrome? (Y/n): \e[m'
+    if [[ $REPLY == $'\n' || $REPLY == [yY] ]]; then
+        echo '\n\e[0;36mInstalling Google Chrome ...\e[m\n'
+        wget -P ${DOWNLOADS_DIR} https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb &&
+            sudo apt-get install -y ${DOWNLOADS_DIR}/google-chrome-stable_current_amd64.deb &&
+            rm -f ${DOWNLOADS_DIR}/google-chrome-stable_current_amd64.deb
+    else
+        echo '\n\e[0;31mGoogle Chrome installation skipped.\e[m'
+    fi
 fi
 
 # Install communication tools
-## Slack
-if compgen -G "${DOWNLOADS_DIR}/slack-desktop*.deb" > /dev/null; then
-    echo '\n\e[0;36mInstalling Slack ...\e[m\n'
-    sudo apt-get install -y ${DOWNLOADS_DIR}/slack-desktop*.deb &&
-        rm -f ${DOWNLOADS_DIR}/slack-desktop*.deb
-else
-    echo '\n\e[0;31mSlack installation skipped.\e[m'
-fi
-# Discord
-read -k 1 $'REPLY?\n\e[0;33mWould you like to install Discord? (Y/n): \e[m'
-if [[ $REPLY == $'\n' || $REPLY == [yY] ]]; then
-    echo '\n\e[0;36mInstalling Discord ...\e[m\n'
-    curl -L "https://discord.com/api/download?platform=linux&format=deb" --output ${DOWNLOADS_DIR}/discord.deb &&
-        sudo apt-get install -y ${DOWNLOADS_DIR}/discord.deb &&
-        rm -f ${DOWNLOADS_DIR}/discord.deb
-else
-    echo '\n\e[0;31mDiscord installation skipped.\e[m'
-fi
-## Zoom
-read -k 1 $'REPLY?\n\e[0;33mWould you like to install Zoom? (Y/n): \e[m'
-if [[ $REPLY == $'\n' || $REPLY == [yY] ]]; then
-    echo '\n\e[0;36mInstalling Zoom ...\e[m\n'
-    wget -P ${DOWNLOADS_DIR} http://zoom.us/client/latest/zoom_amd64.deb &&
-        sudo apt-get install -y ${DOWNLOADS_DIR}/zoom_amd64.deb &&
-        rm -f ${DOWNLOADS_DIR}/zoom_amd64.deb
-else
-    echo '\n\e[0;31mZoom installation skipped.\e[m'
+if ! $is_wsl; then
+    ## Slack
+    if compgen -G "${DOWNLOADS_DIR}/slack-desktop*.deb" > /dev/null; then
+        echo '\n\e[0;36mInstalling Slack ...\e[m\n'
+        sudo apt-get install -y ${DOWNLOADS_DIR}/slack-desktop*.deb &&
+            rm -f ${DOWNLOADS_DIR}/slack-desktop*.deb
+    else
+        echo '\n\e[0;31mSlack installation skipped.\e[m'
+    fi
+    # Discord
+    read -k 1 $'REPLY?\n\e[0;33mWould you like to install Discord? (Y/n): \e[m'
+    if [[ $REPLY == $'\n' || $REPLY == [yY] ]]; then
+        echo '\n\e[0;36mInstalling Discord ...\e[m\n'
+        curl -L "https://discord.com/api/download?platform=linux&format=deb" --output ${DOWNLOADS_DIR}/discord.deb &&
+            sudo apt-get install -y ${DOWNLOADS_DIR}/discord.deb &&
+            rm -f ${DOWNLOADS_DIR}/discord.deb
+    else
+        echo '\n\e[0;31mDiscord installation skipped.\e[m'
+    fi
+    ## Zoom
+    read -k 1 $'REPLY?\n\e[0;33mWould you like to install Zoom? (Y/n): \e[m'
+    if [[ $REPLY == $'\n' || $REPLY == [yY] ]]; then
+        echo '\n\e[0;36mInstalling Zoom ...\e[m\n'
+        wget -P ${DOWNLOADS_DIR} http://zoom.us/client/latest/zoom_amd64.deb &&
+            sudo apt-get install -y ${DOWNLOADS_DIR}/zoom_amd64.deb &&
+            rm -f ${DOWNLOADS_DIR}/zoom_amd64.deb
+    else
+        echo '\n\e[0;31mZoom installation skipped.\e[m'
+    fi
 fi
 
 # Install Docker Engine
@@ -177,17 +196,20 @@ echo "set loadpath \"${ENVDIR}/gnuplot/gnuplot-palettes\"
 load \"${ENVDIR}/gnuplot/gnuplotrc\"" > ${HOME}/.gnuplot
 
 # Set up input sources
-echo '\n\e[0;36mInstalling Mozc ...\e[m\n'
-sudo apt-get install -y ibus-mozc mozc-utils-gui &&
-    ibus restart
+if ! $is_wsl; then
+    echo '\n\e[0;36mInstalling Mozc ...\e[m\n'
+    sudo apt-get install -y ibus-mozc mozc-utils-gui && ibus restart
+fi
 
 # Install other applications
 echo '\n\e[0;36mInstalling other applications ...\e[m\n'
 sudo apt-get install -y colordiff pwgen
-sudo apt-get install -y usb-creator-gtk
 curl -sS https://webinstall.dev/shfmt | bash && rm -rf ${DOWNLOADS_DIR}/webi
-sudo apt-get install -y gimp gthumb # Image editor
-sudo apt-get install -y vlc         # Media player
+if ! $is_wsl; then
+    sudo apt-get install -y usb-creator-gtk
+    sudo apt-get install -y gimp gthumb # Image editor
+    sudo apt-get install -y vlc         # Media player
+fi
 sudo update-pciids
 
 # Uninstall unnecessary applications
@@ -196,13 +218,17 @@ sudo apt-get purge -y aisleriot gnome-mahjongg gnome-mines gnome-sudoku
 sudo apt-get autoremove -y
 
 # Load dconf settings
-echo '\n\e[0;36mLoad dconf settings ...\e[m\n'
-dconf load / < ${ENVDIR}/config/dconf.ini
+if ! $is_wsl; then
+    echo '\n\e[0;36mLoad dconf settings ...\e[m\n'
+    dconf load / < ${ENVDIR}/config/dconf.ini
+fi
 
 echo '\n\e[0;36mAll installations and setups have completed!\e[m\n'
 
-echo '\e[0;33mYou need to restart your computer.\e[m'
-read -s -k $'?\e[0;33mPress [ENTER] to continue or Ctrl-c to cancel and restart manually.\e[m'
+if ! $is_wsl; then
+    echo '\e[0;33mYou need to restart your computer.\e[m'
+    read -s -k $'?\e[0;33mPress [ENTER] to continue or Ctrl-c to cancel and restart manually.\e[m'
 
-echo '\n\n\e[0;31mRebooting your computer ...\e[m\n'
-reboot
+    echo '\n\n\e[0;31mRebooting your computer ...\e[m\n'
+    reboot
+fi
