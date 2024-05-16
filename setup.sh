@@ -35,10 +35,15 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 
 # Set up Zsh
 echo '\n\e[0;36mSetting up Zsh ...\e[m\n'
-ln -s ${ENVDIR}/zsh/.zshenv ${HOME}/.zshenv
+echo "export ENVDIR=\"${ENVDIR}\"
+export PATH=\"\${HOME}/.local/bin:\${PATH}\"
+
+# Zsh
+export ZDOTDIR=\"\${ENVDIR}/zsh\"
+export HISTFILE=\"\${ZDOTDIR}/.zsh_history\"" > ${HOME}/.zshenv
 source ${HOME}/.zshenv
 source ${ZDOTDIR}/.zshrc
-mkdir ${ZDOTDIR}/completion/
+mkdir -p ${ZDOTDIR}/completion/
 ln -s ${ENVDIR}/dotfiles/dircolors ${HOME}/.dircolors
 
 # Install and set up C & C++
