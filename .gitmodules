@@ -1,12 +1,12 @@
 [submodule "gnuplot/gnuplot-palettes"]
 	path = gnuplot/gnuplot-palettes
-	url = git@github.com:Gnuplotting/gnuplot-palettes.git
+	url = https://github.com/Gnuplotting/gnuplot-palettes.git
 [submodule "python/pyenv"]
 	path = python/pyenv
-	url = git@github.com:pyenv/pyenv.git
+	url = https://github.com/pyenv/pyenv.git
 [submodule "zsh"]
 	path = zsh
-	url = git@github.com:conjikidow/zsh-environment.git
+	url = https://github.com/conjikidow/zsh-environment.git
 [submodule "latex/texmf"]
 	path = latex/texmf
-	url = git@github.com:conjikidow/latex-texmf.git
+	url = https://github.com/conjikidow/latex-texmf.git
