@@ -42,7 +42,7 @@ Note that you need to download the .deb version.
 Clone this repository and run `setup.sh` using your current Zsh.
 
 ```zsh
-$ git clone --recursive git@github.com:conjikidow/ubuntu-environment.git ${HOME}/environment
-$ cd environment
-$ source setup.sh
+$ git clone --recursive git@github.com:conjikidow/ubuntu-environment.git ${HOME}/.environment
+$ cd ${HOME}/.environment
+$ source ./setup.sh
 ```
