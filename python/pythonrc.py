@@ -10,9 +10,9 @@ class TerminalColors(dict):
 
     def __init__(self):
         if os.environ.get('TERM') in ('xterm-color', 'xterm-256color', 'linux', 'screen', 'screen-256color', 'screen-bce'):
-            self.update(dict([(k, self.__base % v) for k, v in self.__color_db]))
+            self.update({k: self.__base % v for k, v in self.__color_db})
         else:
-            self.update(dict([(k, self.__no_color) for k, v in self.__color_db]))
+            self.update({k: self.__no_color for k, v in self.__color_db})
 
     __color_db = (
         ("Black", "0;30"),
@@ -40,8 +40,8 @@ class TerminalColors(dict):
 
 __terminal_color = TerminalColors()
 
-sys.ps1 = f"{__terminal_color['Purple']}>>> {__terminal_color['Normal']}"
-sys.ps2 = f"{__terminal_color['Brown']}... {__terminal_color['Normal']}"
+sys.ps1 = f"{__terminal_color['Purple']}>>>{__terminal_color['Normal']} "
+sys.ps2 = f"{__terminal_color['Brown']}...{__terminal_color['Normal']} "
 
 
 # Enable tab completion
@@ -121,7 +121,7 @@ class EditableBufferInteractiveConsole(InteractiveConsole):
 __editable_console = EditableBufferInteractiveConsole(locals=locals())
 
 
-__login_message = """%(Normal)sType \"\e\" to edit with Vim.\n""" % __terminal_color
+__login_message = """%(Normal)sType \"\\e\" to edit with Vim.\n""" % __terminal_color
 __exit_message = """%(Normal)s\nExited from python.\n""" % __terminal_color
 atexit.register(lambda: sys.stdout.write(__exit_message))
 __editable_console.interact(banner=__login_message)

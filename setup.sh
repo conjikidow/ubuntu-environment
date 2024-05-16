@@ -38,6 +38,7 @@ echo '\n\e[0;36mSetting up Zsh ...\e[m\n'
 ln -s ${ENVDIR}/zsh/.zshenv ${HOME}/.zshenv
 source ${HOME}/.zshenv
 source ${ZDOTDIR}/.zshrc
+mkdir ${ZDOTDIR}/completion/
 ln -s ${ENVDIR}/dotfiles/dircolors ${HOME}/.dircolors
 
 # Install and set up C & C++
@@ -56,27 +57,20 @@ sudo apt-get install -y clang-format
 ln -s ${ENVDIR}/dotfiles/clang-format ${HOME}/.clang-format
 
 # Install and set up Python
-echo '\n\e[0;36mSetting up Python ...\e[m'
-## Dependent libraries
-echo '\n\e[36mInstalling libraries required to build Python ...\e[m\n'
-sudo sh -c 'echo "deb-src http://archive.ubuntu.com/ubuntu $(lsb_release -cs)-updates main" >> /etc/apt/sources.list' \
-&& sudo apt-get update \
-&& sudo apt-get build-dep -y python3.10
-sudo apt-get install -y libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-## Python
-echo '\n\e[36mBuilding and installing Python ...\e[m\n'
-pyenv install 3.10.10 \
-&& pyenv global 3.10.10 \
-&& eval "$(pyenv init -)"
-## pip
-echo '\n\e[36mInstalling pip ...\e[m\n'
-sudo apt-get install -y python3-pip \
-&& pip install --upgrade pip
+echo '\n\e[0;36mInstall Rye and Python ...\e[m'
+## Rye
+echo '\n\e[36mInstalling Rye ...\e[m\n'
+curl -sSf https://rye-up.com/get | RYE_INSTALL_OPTION="--yes" bash
+rye self completion -s zsh > ${ZDOTDIR}/completion/_rye
 ## Python modules
 echo '\n\e[36mInstalling some Python modules ...\e[m\n'
-pip install autopep8 ipykernel isort matplotlib numpy pandas scipy sympy yapf
-mkdir -p ${HOME}/.config/yapf \
-&& ln -s ${ENVDIR}/dotfiles/yapf_style ${HOME}/.config/yapf/style
+rye install autopep8
+rye install isort
+rye install pipenv
+rye install poetry
+rye install yapf
+mkdir -p ${HOME}/.config/yapf &&
+    ln -s ${ENVDIR}/dotfiles/yapf_style ${HOME}/.config/yapf/style
 
 # Install and set up LaTeX
 read -k 1 $'REPLY?\n\e[0;33mWould you like to install LaTeX? (Y/n): \e[m'
