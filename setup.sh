@@ -82,11 +82,8 @@ curl -sSf https://rye-up.com/get | RYE_INSTALL_OPTION="--yes" bash
 rye self completion -s zsh > ${ZDOTDIR}/completion/_rye
 ## Python modules
 echo '\n\e[36mInstalling some Python modules ...\e[m\n'
-rye install autopep8
-rye install isort
 rye install pipenv
 rye install poetry
-rye install yapf
 mkdir -p ${HOME}/.config/yapf &&
     ln -s ${ENVDIR}/dotfiles/yapf_style ${HOME}/.config/yapf/style
 
