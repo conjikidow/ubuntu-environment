@@ -78,7 +78,7 @@ ln -s ${ENVDIR}/dotfiles/clang-format ${HOME}/.clang-format
 echo '\n\e[0;36mInstall Rye and Python ...\e[m'
 ## Rye
 echo '\n\e[36mInstalling Rye ...\e[m\n'
-curl -sSf https://rye-up.com/get | RYE_INSTALL_OPTION="--yes" bash
+curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash
 rye self completion -s zsh > ${ZDOTDIR}/completion/_rye
 ## Python modules
 echo '\n\e[36mInstalling some Python modules ...\e[m\n'
