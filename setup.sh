@@ -203,7 +203,7 @@ fi
 
 # Install other applications
 echo '\n\e[0;36mInstalling other applications ...\e[m\n'
-sudo apt-get install -y colordiff pwgen
+sudo apt-get install -y colordiff diffpdf pwgen
 curl -sS https://webinstall.dev/shfmt | bash && rm -rf ${DOWNLOADS_DIR}/webi
 if ! $is_wsl; then
     sudo apt-get install -y usb-creator-gtk

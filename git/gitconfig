@@ -29,5 +29,7 @@
 [push]
     default = simple
     recurseSubmodules = check
+[diff "pdfdiff"]
+    command = diffpdf
 [url "ssh://git@"]
 	insteadOf = https://
