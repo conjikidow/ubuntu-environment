@@ -74,18 +74,22 @@ sudo apt-get install -y make cmake
 sudo apt-get install -y clang-format
 ln -s ${ENVDIR}/dotfiles/clang-format ${HOME}/.clang-format
 
-# Install and set up Python
-echo '\n\e[0;36mInstall Rye and Python ...\e[m'
-## Rye
-echo '\n\e[36mInstalling Rye ...\e[m\n'
-curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash
-rye self completion -s zsh > ${ZDOTDIR}/completion/_rye
-## Python modules
-echo '\n\e[36mInstalling some Python modules ...\e[m\n'
-rye install pipenv
-rye install poetry
-mkdir -p ${HOME}/.config/yapf &&
-    ln -s ${ENVDIR}/dotfiles/yapf_style ${HOME}/.config/yapf/style
+# Install uv and set up Python
+echo '\n\e[0;36mInstall uv and Python ...\e[m'
+## uv
+echo '\n\e[36mInstalling uv ...\e[m\n'
+curl -LsSf https://astral.sh/uv/install.sh | sh
+## Python packages
+echo '\n\e[36mInstalling some Python packages ...\e[m\n'
+uv tool install pipenv
+uv tool install poetry
+
+# Install and set up Rust
+echo '\n\e[0;36mInstall Rustup and some cargo package ...\e[m'
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source "$HOME/.cargo/env"
+cargo install cargo-binstall cargo-about
+rustup completion zsh > ${ZDOTDIR}/completion/_rustup
 
 # Install and set up LaTeX
 read -k 1 $'REPLY?\n\e[0;33mWould you like to install LaTeX? (Y/n): \e[m'
@@ -109,6 +113,10 @@ if [[ $REPLY == $'\n' || $REPLY == [yY] ]]; then
 else
     echo '\n\e[0;31mLaTeX installation skipped.\e[m'
 fi
+
+# Install Typst
+echo '\n\e[0;36mInstall Typst ...\e[m'
+cargo install --locked typst-cli
 
 # Install editors
 ## Vim
@@ -200,12 +208,11 @@ fi
 
 # Install other applications
 echo '\n\e[0;36mInstalling other applications ...\e[m\n'
-sudo apt-get install -y colordiff diffpdf pwgen
+sudo apt-get install -y colordiff pwgen
 curl -sS https://webinstall.dev/shfmt | bash && rm -rf ${DOWNLOADS_DIR}/webi
 if ! $is_wsl; then
     sudo apt-get install -y usb-creator-gtk
-    sudo apt-get install -y gimp gthumb # Image editor
-    sudo apt-get install -y vlc         # Media player
+    sudo apt-get install -y vlc  # Media player
 fi
 sudo update-pciids
 
